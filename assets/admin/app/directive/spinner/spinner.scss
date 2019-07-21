@@ -1,0 +1,36 @@
+spinner {
+  $size: 50 !default;
+  $spinner-color: $primary;
+
+  width: 100%;
+
+  .sk-rotating-plane {
+    width: $spinkit-size;
+    height: $spinkit-size;
+    margin: auto;
+    background-color: $spinner-color;
+    animation: sk-rotating-plane 1.2s infinite ease-in-out;
+  }
+
+  @keyframes sk-rotating-plane {
+    0% {
+      transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    }
+    100% {
+      transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    }
+  }
+
+  & > div {
+    display: none;
+    margin-bottom: 20px;
+    &.show {
+
+      display: block;
+    }
+  }
+
+}

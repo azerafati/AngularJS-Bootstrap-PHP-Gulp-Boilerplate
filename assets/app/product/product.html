@@ -1,0 +1,327 @@
+<div class="container mt-4">
+    <div class="row half-gutter rtl" itemscope itemtype="http://schema.org/Product" id="product-page">
+        <loading class="fade" ng-class="{show:product.partial || !loaded}"></loading>
+        <div class="col-12 ">
+            <nav aria-label="breadcrumb ">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/">صفحه اصلی</a>
+                    </li>
+                    <li class="breadcrumb-item" ng-repeat="b in product.breadcrumb" ng-class="{active:$last}">
+                        <a href="/c{{b.id}}/{{b.url}}">{{b.title}}</a>
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <spinner></spinner>
+        <div class="col-sm-6 fade" ng-class="{show:product}">
+            <div class="card no-paddin">
+                <div class="card-body p-0">
+                    <div id="prodSlider" class="carousel slide">
+                        <div class="carousel-inner">
+                            <div class="carousel-item" ng-class="{active:$first}" ng-repeat="img in getImgs(product,true)">
+                                <img class="d-block w-100" ng-src="{{img}}" alt="{{::product.name}}">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#" data-target="#prodSlider" role="button" data-slide="prev" ng-if="product.imgs>1">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">قبلی</span>
+                        </a>
+                        <a class="carousel-control-next" href="#" data-target="#prodSlider" role="button" data-slide="next" ng-if="product.imgs>1">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">بعدی</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row half-gutter" ng-if="product.imgs>1 && product.imgs<5">
+                <div class="col-3" ng-repeat="img in getImgs(product)">
+                    <div class="card">
+                        <div class="card-body p-0 text-default-light">
+                            <a href="#" data-target="#prodSlider" data-slide-to="{{$index}}">
+                                <img class="img-fluid rounded btn-block" ng-src="{{img}}" alt="{{product.name}}"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row half-gutter" ng-if="product.imgs>4">
+                <div class="col" ng-repeat="img in getImgs(product)">
+                    <div class="card">
+                        <div class="card-body p-0 text-default-light">
+                            <a href="#" data-target="#prodSlider" data-slide-to="{{$index}}">
+                                <img class="img-fluid rounded btn-block" ng-src="{{img}}" alt="{{product.name}}"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 fade" ng-class="{show:product}">
+            <!--<div class="row d-sm-none">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-0w">
+                            <div class="swiper-container">
+                                &lt;!&ndash; Additional required wrapper &ndash;&gt;
+                                <div class="swiper-wrapper">
+                                    &lt;!&ndash; Slides &ndash;&gt;
+                                    <div class="swiper-slide" ng-repeat="thumb in range(0,product.imgs-1)">
+                                        <img class=" prodswimg " ng-src="/res/img/prod/{{product.rnd}}/{{product.url}}{{thumb>0?'-'+thumb:'-'}}z.jpg" alt="{{::product.name}}"/>
+                                    </div>
+                                </div>
+                                &lt;!&ndash; If we need pagination &ndash;&gt;
+                                <div class="swiper-pagination" ng-if="product.imgs>1"></div>
+                                &lt;!&ndash; If we need navigation buttons &ndash;&gt;
+                                <div class="swiper-button-prev" ng-if="product.imgs>1"></div>
+                                <div class="swiper-button-next" ng-if="product.imgs>1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+            <div class="card">
+                <div class="card-body text-right rtl">
+                    <h3 class="no-margin" itemprop="name">
+                        <a ng-href="/p{{product.rndurl}}/{{product.url}}">{{product.name}}</a>
+                    </h3>
+                    <small class="text-default-light">{{product.code}}</small>
+                    <i class="fa fa-thumb-tack pull-left text-primary" ng-click="copy('https://boilerplate.com/p/',$event)"></i>
+                    <hr/>
+                    <s class="old-price text-lg" ng-if="product.old_price">{{product.old_price|number}}</s>
+                    <span ng-if="product.price>0" class="price text-xxl">{{product.price|number}}</span>
+                    <span ng-if="product.price>0" class="">تومان </span>
+                </div>
+            </div>
+
+
+            <div class="card">
+                <div class="card-body text-default" ng-if="product.production_status=='NOT_PRODUCED'">
+                    <div class="col-sm-12">
+                        <button class="btn btn-block btn-secondary m-0" type="button">
+                            تولید این محصول متوقف شده است
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body text-default" ng-if="product.production_status!=='NOT_PRODUCED'">
+                    <div class="col-sm-12" ng-if="!product.price>0 || !product.in_stock">
+                        <button class="btn btn-block btn-secondary m-0" type="button">
+                            موجودی این محصول به اتمام رسیده است
+                        </button>
+                    </div>
+                    <div class="row half-gutter" ng-if="product.price>0 && product.in_stock">
+                        <div class="col-12">
+                            <a class="btn btn-block btn-success btn-lg no-margin" ng-show="product.in_cart" href="/cart">
+                                به سبد خرید اضافه شد
+                                <svg class="icon">
+                                    <use xlink:href="#svg-checked"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="col-sm-5" ng-hide="product.in_cart">
+                            <div class="form-group row half-gutter">
+                                <label for="qty" class="col-5 col-form-label rtl">تعداد:</label>
+                                <div class="col-7">
+                                    <select id="qty" name="qty" class="form-control ">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="3">4</option>
+                                        <option value="3">5</option>
+                                        <option value="3">6</option>
+                                        <option value="3">7</option>
+                                        <option value="3">8</option>
+                                        <option value="3">9</option>
+                                        <option value="3">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <button class="btn btn-block btn-primary " ng-click="addToCart(product)" ng-hide="product.in_cart" type="button">
+                                افزودن به سبد خرید
+                                <svg class="icon">
+                                    <use xlink:href="#cart"></use>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                    <hr/>
+                    <ul class="rtl text-right text-sm">
+                        <li>حداکثر طی سه روز کاری به دست شما می رسد</li>
+                        <li>سلامت فیزیکی مرسوله را تضمین می کنیم</li>
+                        <li>تمامی کالا ها تولید داخل هستند</li>
+                    </ul>
+                    <hr/>
+                    <div class="col-sm-12 text-center">
+                        <a class="btn btn-success btn-sm" href="/aurc/فروش-عمده-سفال-سرامیک">
+                            برای خرید عمده اینجا کلیک کنید
+                            <svg class="icon">
+                                <use xlink:href="#svg-truck"></use>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body text-center py-0">
+                    <table class="table table-sm text-sm" id="attr-table">
+                        <thead>
+                        <tr>
+                            <th colspan="2" class="text-center border-0 ">مشخصات محصول</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="product.height">
+                            <th>ارتفاع:</th>
+                            <td>
+                                {{product.height}} سانتی متر
+                            </td>
+                        </tr>
+                        <tr ng-if="product.width">
+                            <th>عرض:</th>
+                            <td>
+                                {{product.width}} سانتی متر
+                            </td>
+                        </tr>
+                        <tr ng-if="product.opening_diameter">
+                            <th>قطر دهانه:</th>
+                            <td>
+                                {{product.opening_diameter}} سانتی متر
+                            </td>
+                        </tr>
+                        <tr ng-if="product.body_cover">
+                            <th>پوشش بدنه:</th>
+                            <td>
+                                {{product.body_cover}}
+                            </td>
+                        </tr>
+                        <tr ng-if="product.body_type">
+                            <th>جنس بدنه:</th>
+                            <td>
+                                {{product.body_type}}
+                            </td>
+                        </tr>
+                        <tr ng-if="product.box_qty">
+                            <th>تعداد در کارتن:</th>
+                            <td>
+                                {{product.box_qty}} عدد
+                            </td>
+                        </tr>
+                        <tr ng-if="product.box_color">
+                            <th>رنگ بندی داخل کارتن:</th>
+                            <td>
+                                {{product.box_color}}
+                            </td>
+                        </tr>
+                        <tr ng-if="product.usecase">
+                            <th>نوع کاربری:</th>
+                            <td>
+                                {{product.usecase}}
+                            </td>
+                        </tr>
+                        <tr ng-if="product.suitable_for">
+                            <th>مناسب برای:</th>
+                            <td>
+                                {{product.suitable_for}}
+                            </td>
+                        </tr>
+                        <tr ng-if="product.care_tip">
+                            <th>نحوه مراقبت:</th>
+                            <td>
+                                {{product.care_tip}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>محل تولید:</th>
+                            <td>
+                                {{product.produced_in|| 'لالجین - همدان'}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">توضیحات محصول</div>
+                <div class="card-body text-justify text-sm">
+                    <div itemprop="description" ng-bind-html="product.infoHtml" ng-if="product.info"></div>
+                    <div>
+                        <span class="label"><a ng-href="/t{{tag.id}}/{{tag.title}}" target="_self">{{tag.title}}</a></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p>با ما تماس بگیرید</p>
+                    <div class="row half-gutter">
+                        <div class="col">
+
+                            <a href="https://telegram.me/boilerplate_com" class="btn btn-outline-info btn-block ">
+                                پشتیبانی در تلگرام
+                                <svg class="icon">
+                                    <use xlink:href="#svg-telegram"></use>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="col mt-sm-0 mt-2">
+                            <a href="tel:+989188139096" class="btn btn-outline-dark btn-block ">
+                                0918-813-9096
+                                <svg class="icon">
+                                    <use xlink:href="#svg-phone"></use>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body text-right">
+                    <p>با دوستان خود به اشتراک بگذارید و نظر آنها را بپرسید</p>
+                    <a href="https://t.me/share/url?url=https://boilerplate.com/p{{product.rndurl}}&text={{product.name}}" target="_blank" class="btn btn-light btn-icon">
+                        <svg class="icon">
+                            <use xlink:href="#svg-telegram"></use>
+                        </svg>
+                    </a>
+                    <a href="https://plus.google.com/share?url=https://boilerplate.com{{product.link}}&text={{product.name}}" target="_blank" class="btn btn-light btn-icon">
+                        <svg class="icon">
+                            <use xlink:href="#svg-google-plus"></use>
+                        </svg>
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?text={{product.name}}&via=boilerplate&url=https://boilerplate.com{{product.link}}" target="_blank" class="btn btn-light btn-icon">
+                        <svg class="icon">
+                            <use xlink:href="#svg-twitter"></use>
+                        </svg>
+                    </a>
+                    <!--<a href="https://twitter.com/intent/tweet?text=نظرتون چیه؟ - {{product.name}}&via=boilerplate&url=https://boilerplate.com/<?= urlencode($view['product']->url) ?>" target="_blank" class="btn btn-light btn-icon">
+                        <svg class="icon">
+                            <use xlink:href="#instagram"></use>
+                        </svg>
+                    </a>-->
+                    <a href="http://pinterest.com/pin/create/link/?url=https://boilerplate.com{{product.link}}" target="_blank" class="btn btn-light btn-icon">
+                        <svg class="icon">
+                            <use xlink:href="#svg-pinterest"></use>
+                        </svg>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+        <!--
+            <div class="col-12" ng-include="'/assets/app/comment/comment.html'"></div>
+        -->
+    </div>
+</div>

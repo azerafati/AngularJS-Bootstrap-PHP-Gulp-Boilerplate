@@ -1,0 +1,38 @@
+<div class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" ng-show="isEdit"> ویرایش گروه محصولات </h5>
+                <h5 class="modal-title" ng-show="!isEdit">گروه محصولات</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="input-group">
+
+                        <ui-select ng-model="selectedCat" on-select="selectCat(selectedCat)" class="form-control" title="جستجو">
+                            <ui-select-match placeholder="جستجو">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices repeat="cat in searchCats track by cat.id" refresh="searchCategories($select.search)">
+                                <div>{{cat.name}}</div>
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+                <ul id="prodCategoryTree" class="ztree"></ul>
+            </div>
+            <div class="modal-footer justify-content-between">
+               <!-- <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" ng-show="false" class="btn btn-secondary" ng-click="isEdit=true">ویرایش</button>
+                </div>-->
+                <div class="btn-group btn-group-sm" role="group">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">لغو</button>
+                    <button type="button" ng-show="isEdit" class="btn btn-primary" ng-click="save()">ذخیره</button>
+                    <button type="button" ng-show="!isEdit" class="btn btn-primary" ng-click="returnCategory()">تایید</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

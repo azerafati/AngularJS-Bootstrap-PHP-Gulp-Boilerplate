@@ -1,0 +1,63 @@
+<div>
+
+    <div class="card mb-4">
+        <!-- BEGIN SEARCH BAR -->
+        <div class="card-header">
+            <button class="btn btn-sm btn-icon" data-toggle="dropdown">
+                <svg class="icon text-light">
+                    <use xlink:href="#svg-more"></use>
+                </svg>
+            </button>
+            <span>{{user.fname}} {{user.lname}} ({{ user.known_as }}) - {{user.tel}}</span>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" ng-click="changePassword()">تغییر رمز ورود</button>
+            </div>
+            <button class="btn btn-sm btn-outline-light mr-auto" ng-click="edit()">
+                ویرایش کاربر
+            </button>
+        </div>
+        <div class="card-body rtl text-right">
+            <spinner></spinner>
+
+            <div ng-show="::loaded">
+                <div class="row mb-4">
+                    <div class="col-sm-2 text-center">
+                        <button class="btn btn-light btn-image btn-image-lg avatar" type="button" >
+                            <svg class="icon avatar" ng-if="!user.profileImage">
+                                <use xlink:href="#svg-avatar"></use>
+                            </svg>
+                            <img ng-src="{{user.img||user.profileImage}}" class="" ng-if="user.img||user.profileImage">
+                        </button>
+                    </div>
+                    <div class="col-sm-4 ">
+                        <p><b>نام:</b> {{user.fname}} {{user.lname}}</p>
+                        <p> {{user.tel}}</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <p><b>شرکت/فروشگاه:</b> {{user.company}}</p>
+                        <p><b>سن:</b> {{user.birth_date|age}}</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <p><b>گروه:</b> {{user.group_name}}</p>
+                        <p><b>اعتبار:</b> <span class="ltr d-inline-block" ng-style="{color : user.balance<0?'red':'green'}">{{user.balance|number:0}}</span></p>
+                    </div>
+                </div>
+
+                <textarea ng-model="user.info" rows="2" class="form-control" ng-change="editUser('info')"
+                          ng-model-options="{ debounce: 600 }"></textarea>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <ng-include src="'/assets/admin/app/order/orderList.html'"></ng-include>
+    </div>
+
+
+    <div>
+        <ng-include src="'/assets/admin/app/payment/paymentList.html'"></ng-include>
+    </div>
+
+
+</div>

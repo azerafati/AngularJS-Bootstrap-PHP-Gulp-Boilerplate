@@ -1,0 +1,316 @@
+<div id="cart-page" class="container">
+    <h2 class=" text-center">
+        سبد خرید
+        <svg class="icon ">
+            <use xlink:href="#svg-cart"></use>
+        </svg>
+    </h2>
+    <hr/>
+
+    <spinner></spinner>
+
+    <div class="fade" ng-class="{show:loaded}">
+
+
+        <div class="card hardfade" ng-class="{show:cart.orderItems.length}">
+            <div class="card-header text-right">
+                <span style="direction: rtl; display: inline-block;">{{cart.code}}</span>
+                : کد سفارش
+            </div>
+
+            <div class="az-table">
+                <table class="table table-hover rtl text-center table-bordered mb-0 " id="items">
+                    <thead>
+                    <tr>
+                        <th class="">#</th>
+                        <th>تصویر</th>
+                        <th>نام کالا</th>
+                        <th>تعداد</th>
+                        <th>قیمت واحد</th>
+                        <th>جمع</th>
+                        <th>توضیحات</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody ng-form="itemsForm">
+                    <tr class="" ng-repeat="(index,item) in cart.orderItems track by item.id" ng-init="p = item.product">
+                        <td>
+                            <p class="item-idx">{{$index+1}}</p>
+                        </td>
+                        <td class="" data-title="تصویر : ">
+                            <a href="/{{item.product_url}}">
+                                <img class="img img-thumbnail" title="{{item.title}}" ng-src="{{'/res/img/prod/'+p.rnd+'/'+p.url+'.jpg'}}"/>
+                            </a>
+                        </td>
+                        <td class="" data-title="نام کالا : ">
+                            <a href="/p{{p.rndurl}}/{{p.url}}">
+                                {{p.name}}<br/>
+                                <small>{{p.code}}</small>
+                            </a>
+                        </td>
+                        <td data-title="تعداد : ">
+                            <div class="form-group ">
+                                <!--<label>تعداد</label>-->
+                                <select class="form-control" ng-model="item.qty" ng-change="update_qty(item)" ng-class="{loading:item.loadingQty}" ng-options="q for q in range(1,10)"></select>
+                            </div>
+                        </td>
+                        <td class="" data-title="قیمت:">{{p.price| number}}</td>
+                        <td class="" data-title="جمع:">{{item.total_price| number}}</td>
+                        <td data-title="توضیحات:" ng-click="addInfo(item)">
+
+                            <button class="btn btn-info btn-sm" ng-class="{loading:item.loadingInfo}" ng-if="!item.cus_info" ng-click="addInfo(item)">
+                                <svg class="icon">
+                                    <use xlink:href="#svg-edit"></use>
+                                </svg>
+                                افزودن توضیحات
+                            </button>
+                            <p class="text-sm ">
+                                {{item.cus_info}} </p>
+                        </td>
+                        <td data-title="حذف: " class="p-0">
+                            <button class="btn btn-danger btn-sm" ng-click="removeItem(item)">
+                                <svg class="icon ml-0">
+                                    <use xlink:href="#svg-times"></use>
+                                </svg>
+
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot class="text-left">
+                    <tr>
+                        <td colspan="5">بسته بندی</td>
+                        <td colspan="3" class="text-right">{{cart.pkg_price | currency:'':0}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="5" class="p-2">
+
+                            <div class="row ltr">
+                                <div class="col-sm-5  ">
+                                    <select class="form-control input-sm" ng-model="cart.post_plan_id" ng-change="updatePlan()" ng-options="post.id as post.name for  post in cart.posts"></select>
+                                </div>
+                            </div>
+                        </td>
+                        <td id="pkg_price" colspan="3" class="text-right">{{cart.shipment_price | currency:'':0}}
+                            <span class="spinner-border text-primary align-middle float-left fade" role="status" aria-hidden="true" ng-class="{show:updatingPlan}"></span>
+                        </td>
+                    </tr>
+                    <tr class="table-active">
+                        <th colspan="5">جمع کل</th>
+                        <th id="total_order_price" colspan="3" class="text-right">{{cart.final_price | currency:'':0}} &nbsp;&nbsp;تومان</th>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="card hardfade mb-2" ng-class="{show:getPostPlan(cart.post_plan_id).info}">
+            <div class="card-body">
+                <div class="alert alert-info rtl text-right ">
+                    <svg class="icon icon-lg">
+                        <use xlink:href="#svg-info"></use>
+                    </svg>
+                    {{getPostPlan(cart.post_plan_id).info}}
+                </div>
+            </div>
+        </div>
+
+        <div class="card hardfade" ng-class="{show:!cart.orderItems.length}">
+            <div class="card-body">
+                <div class="alert alert-warning rtl text-right ">
+                    <svg class="icon">
+                        <use xlink:href="#svg-warning"></use>
+                    </svg>
+                    سبد خرید شما خالی است. <br>برای بازگشت به
+                    <a href="/">صفحه اصلی و مشاهده محصولات اینجا کلیک کنید.</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row hardfade mb-3" id="submitOrder" ng-class="{show:cart.orderItems.length }">
+            <div class="col col-sm-6 col-md-4 offset-md-4 offset-sm-3" ng-hide="submit">
+                <button class="btn btn-success btn-lg btn-block" ng-click="submitOrder()">
+                    تایید و ادامه خرید
+                    <svg class="icon">
+                        <use xlink:href="#svg-cart"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <hr/>
+        <div class="hardfade" ng-class="{show:submit}">
+            <div class="card rtl">
+                <div class="card-header card-head-xs rtl">
+                    <header>
+                        مشخصات گیرنده
+                        <i class="fa fa-truck"></i>
+                    </header>
+                </div>
+                <div class="card-body small-padding">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-success btn-sm pull-right" type="button" ng-click="editAddress()">
+                                ایجاد آدرس جدید
+                                <svg class="icon">
+                                    <use xlink:href="#svg-positive"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row half-gutter mt-2 ltr" ng-repeat="a in addresses">
+                        <div class="col-xs-4 col-sm-2">
+                            <div class=" btn-group btn-group-sm ">
+                                <button class="btn btn-info" ng-click="editAddress(a)">ویرایش</button>
+                                <button class="btn btn-danger" ng-click="removeAddress(a)">حذف</button>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-2 col-sm-10">
+                            <div class="custom-control custom-radio text-right">
+                                <input type="radio" id="rbtn{{::a.id}}" name="cartAddress" value="{{a.id}}" ng-model="$parent.selectedAdrs" class="custom-control-input">
+                                <label class="custom-control-label" for="rbtn{{::a.id}}">{{a.title}} -- {{a.name}} : {{a.province}} - {{a.city}} - {{a.detail}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="hardfade" ng-class="{show:submit}">
+            <div class="alert alert-success mt-2 rtl" ng-class="{'alert-success':agreement,'alert-danger':!agreement}">
+                <div class="checkbox checkbox-styled checkbox-success">
+                    <label>
+                        <input type="checkbox" value="" required ng-model="agreement" checked="checked">
+                        <span>
+  									موافقت خود را با
+  									<a href="/شرایط-قوانین" target="_blank" class="text-accent">شرایط و قوانین</a>
+  									مربوط به ثبت و رویه‌های پردازش سفارشات boilerplate، اعلام می کنم.
+  								</span>
+                    </label>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="col col-sm-6 col-md-4 offset-md-4 offset-sm-3">
+                    <button class="btn btn-success btn-lg btn-block" ng-disabled="!agreement" ng-class="{loading:paying}" ng-click="pay()">
+                        تایید و پرداخت
+                        <svg class="icon">
+                            <use xlink:href="#svg-checked"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!--<div class="row up-2">
+                <div class="col-xs-12 col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3 text-center">
+                    <button class="btn  btn-secondary " ng-disabled="!agreement" ng-class="{loading:paying}" type="button" ng-click="submitWithoutPayment()">
+                        ثبت سفارش بدون پرداخت
+                    </button>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+    <div class="modal fade " id="itemInfo" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content ">
+                <div class="modal-header">
+                    <h4 class="modal-title">توضیحات</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body rtl clearfix">
+
+                <textarea class="form-control" rows="4" ng-model="itemCusInfo">
+
+
+                </textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveInfo()">ذخیره
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade " id="addressModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">آدرس</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body rtl clearfix">
+                    <form ng-submit="saveAddress(address)" novalidate name="addressForm" class="">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>عنوان</label>
+                                    <input type="text" name="postalcode" class="form-control" placeholder="برای مثال (خانه، محل کار)" ng-model="address.title">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label>کدپستی</label>
+                                    <input type="text" name="postalcode" class="form-control" placeholder="لطفا کدپستی خود را وارد کنید" ng-model="address.postalcode">
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group" ng-class="{ 'has-error' : addressForm.number.$invalid && !addressForm.number.$pristine }">
+                                    <label> شماره تماس
+                                    </label>
+                                    <input type="tel" ng-pattern="/^0[0-9]{10}$/" class="form-control ltr" placeholder="لطفا شماره موبایل خود را وارد کنید" name="number" ng-model="address.number" required/>
+                                    <p ng-show="addressForm.number.$invalid && !addressForm.number.$pristine" class="help-block">
+                                        شماره تماس وارد شده صحیح نیست</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group" ng-class="{ 'has-error' : addressForm.name.$invalid && !addressForm.name.$pristine }">
+                                    <label>نام کامل گیرنده
+                                        <small>(حروف فارسی)</small>
+                                    </label>
+                                    <input type="text" name="name" class="form-control" placeholder="نام گیرنده را وارد کنید" ng-model="address.name" ng-minlength="5" required>
+                                    <p ng-show="addressForm.name.$invalid  && !addressForm.name.$pristine" class="help-block">
+                                        لطفا نام کامل را وارد کنید</p>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-sm-push-9">
+                                <div class="form-group " ng-class="{ 'has-error' : addressForm.province.$invalid && !addressForm.province.$pristine }">
+                                    <label>استان</label>
+                                    <select name="province" class="form-control" ng-model="address.province_id" ng-change="loadCities()" ng-options="province.id as province.name for province in provinces" required>
+                                        <option class="hidden" value="">استان را انتخاب کنید</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-sm-push-3">
+                                <div class="form-group" ng-class="{ 'has-error' : addressForm.city.$invalid && !addressForm.city.$pristine }">
+                                    <label>شهر</label>
+                                    <select class="form-control" ng-class="{'loading':loadingCities}" name="city" ng-model="address.city_id" ng-options="city.id as city.name for city in cities" required>
+                                        <option class="hidden" value=""> شهر را انتخاب کنید</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-sm-pull-6">
+                                <div class="form-group" ng-class="{ 'has-error' : addressForm.detail.$invalid && !addressForm.detail.$pristine }">
+                                    <label>آدرس پستی</label>
+                                    <textarea type="address" class="form-control" name="detail" ng-model="address.detail" placeholder="آدرس  دقیق ارسال محصولات را وارد کنید بدون نام استان و شهرستان" ng-minlength="5" required></textarea>
+                                    <p ng-show="addressForm.detail.$invalid  && !addressForm.detail.$pristine" class="help-block">
+                                        لطفا آدرس کامل خود را وارد کنید</p>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="saveAddress(address)" ng-disabled="addressForm.$invalid">ذخیره</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

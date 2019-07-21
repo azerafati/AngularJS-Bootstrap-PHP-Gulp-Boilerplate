@@ -1,0 +1,173 @@
+<div class="col-sm-12 col-md-10 offset-md-1" itemscope itemtype="http://schema.org/Product">
+    <div class="row half-gutter">
+        <div class="col-sm-12 ">
+            <div class="card">
+                <div class="card-body p-0 text-default rtl">
+                    <ol class="breadcrumb">
+                        <li >
+                            <a href="/" target="_self">صفحه اصلی</a>
+                        </li>
+
+                        <li class="" ng-repeat="cat in cats">
+                            <a href="/{{cat.name}}" target="_self" ng-class="{active:$last}"> {{cat.name}}</a>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 rtl fade" ng-class="{in:load}" >
+            <div class="row visible-xs-block" >
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body p-0w">
+                            <div class="swiper-container">
+                                <!-- Additional required wrapper -->
+                                <div class="swiper-wrapper">
+                                    <!-- Slides -->
+                                    <div class="swiper-slide" ng-repeat="thumb in range(0,product.imgs-1)">
+                                        <img class=" prodswimg " ng-src="/res/img/prod/{{product.rnd}}/{{product.url}}{{thumb>0?'-'+thumb:'-'}}z.jpg" src="/res/img/prod/<?= $view['product']->rnd ?>/<?= $view['product']->url ?>.jpg" alt="{{product.name}}"/>
+                                    </div>
+                                </div>
+                                <!-- If we need pagination -->
+                                <div class="swiper-pagination" ng-if="product.imgs>1"></div>
+                                <!-- If we need navigation buttons -->
+                                <div class="swiper-button-prev" ng-if="product.imgs>1"></div>
+                                <div class="swiper-button-next" ng-if="product.imgs>1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-default">
+                            <h3 class="no-margin" itemprop="name"><?= $view['product']->name ?></h3>
+                            <small class="text-default-light"><?= $view['product']->code ?></small>
+                            <i class="fa fa-thumb-tack pull-left text-primary" ng-click="copy('https://boilerplate.com/p/<?= $view['product']->rndurl ?>',$event)"></i>
+                            <hr/>
+                            <strike class="old-price text-lg" nf-if="product.old_price">{{product.old_price|number}}</strike>
+                            <span ng-if="product.price>0" class="price text-xxl">{{product.price|number}}</span>
+                            <span ng-if="product.price>0" class="">تومان </span>
+                            <span ng-if="product.price<=0" class="text-warning">امکان خرید این محصول در حاضر وجود ندارد</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="product.price>0">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-default">
+                            <div class="row half-gutter">
+                                <?php if ($view['product']->stock) {
+                                echo '<div class="col-sm-7" >
+                                <button class="btn btn-block btn-primary btn-lg" ng-click="addToBasket(product)" ng-hide="inBasket">
+                                    <i class="fa fa-cart-plus fa-left fa-lg"></i>افزودن به سبد خرید
+                                </button>
+                                <button class="btn btn-block btn-success btn-lg no-margin" ng-show="inBasket">
+                                    <i class="fa fa-check fa-left fa-lg"></i>به سبد خرید اضافه شد
+                                </button>
+                            </div>
+                                <div class="col-sm-5">
+                                    <form action="" class="form-horizontal">
+                                        <div class="form-group form-group-lg ">
+                                            <div class="col-8">
+                                                <select id="qty" name="qty" class="form-control ">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="3">4</option>
+                                                    <option value="3">5</option>
+                                                    <option value="3">6</option>
+                                                    <option value="3">7</option>
+                                                    <option value="3">8</option>
+                                                    <option value="3">9</option>
+                                                    <option value="3">10</option>
+                                                </select>
+                                            </div>
+                                            <label for="qty" class="col-4 control-label">تعداد</label>
+                                        </div>
+                                    </form>
+                                </div>';
+                                } else {
+                                echo '<div class="col-sm-12" >
+                                <button class="btn btn-block btn-secondary no-margin">
+                                    <i class="fa fa-warning fa-left"></i>موجودی این محصول به اتمام رسیده است
+                                </button>
+                            </div>';
+                                }
+                                ?>
+
+                            </div>
+                            <?php if ($view['product']->stock) {
+                            echo '
+                            <hr/>
+                            <p class="text-sm">حداکثر طی سه روز کاری به دست شما می رسد </p>';
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="<?= !empty($view['product']->cats) || !empty($view['product']->info) ?>">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-default text-justify" >
+                            <div itemprop="description"> <?= $view['product']->info ?></div>
+                            <div><?php
+                                foreach ($view['product']->cats as $cat) {
+                                echo '<span class="label"><a href="/'.$cat->url.'" target="_self">' . $cat->title . '</a></span>';
+                                }
+                                ?></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-default" >
+                            برای اطلاعات بیشتر در مورد این محصول می توانید با ما در تلگرام تماس بگیرید <br>
+                            <a href="https://telegram.me/boilerplate_com" class="btn btn-info"><i class="fa fa-send"></i></a>
+                            <p class="">0918-813-4185</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body text-default">
+                            <p>با دوستان خود به اشتراک بگذارید و نظر آنها را بپرسید</p>
+                            <a href="https://twitter.com/intent/tweet?text=نظرتون چیه؟ - {{product.name}}&via=boilerplate&url=https://boilerplate.com/<?= urlencode($view['product']->url) ?>" target="_blank" class="btn btn-info btn-xs"><i class="fa fa-twitter"></i></a>
+                            <div class="g-plusone" data-size="medium" data-annotation="inline" data-width="300"></div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 hidden-xs" >
+            <div class="row" id="imgProd">
+                <div class="col-12">
+                    <div class="card no-paddin">
+                        <div class="card-body text-default p-0">
+                            <img itemprop="image" class="img-responsive img-rounded" src="/res/img/prod/<?= $view['product']->rnd ?>/<?= $view['product']->url ?>.jpg" ng-src="/res/img/prod/{{product.rnd}}/{{product.url}}-z.jpg" alt="{{product.name}}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-if="product.imgs>1">
+                <div class="col-sm-3" ng-repeat="thumb in range(0,product.imgs-1)">
+                    <div class="card">
+                        <div class="card-body p-0 text-default-light">
+                            <a href="" ng-click="zoomImage(thumb)">
+                                <img class="img-responsive img-rounded btn-block" src="/res/css/blank.gif" ng-src="/res/img/prod/{{product.rnd}}/{{product.url}}{{thumb>0?'-'+thumb:''}}.jpg" alt="{{product.name}}"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,128 @@
+<div class="row" row-animated>
+    <div class="col-sm-12">
+        <div class="row mb-4" ng-controller="dashboardTotalsCtrl">
+            <div class="col-sm-3 col-6">
+                <div class="card" >
+                    <div class="card-header p-1 pr-2">
+                        <span>مجموع کل طلب ها</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                        <h5 class="text-center m-2"><a href="users?sort=-5">{{totals.credit|number}}</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-6">
+                <div class="card" >
+                    <div class="card-header">
+                        <span>مجموع کل بدهی ها</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                        <h5 class="text-center m-2"><a href="users?sort=5">{{totals.debt|number}}</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-6">
+                <div class="card" >
+                    <div class="card-header">
+                        <span>مجموع چک های دریافتی</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                        <h5 class="text-center m-2"><a href="users?sort=5">-{{totals.uu|number}}</a></h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-6">
+                <div class="card" >
+                    <div class="card-header">
+                        <span>مجموع چک های پرداختی</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                        <h5 class="text-center m-2"><a href="users?sort=5">-{{totals.ju|number}}</a></h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-sm-12">
+        <div class="card mb-4" ng-controller="saleChartCtrl">
+            <!-- BEGIN SEARCH BAR -->
+            <div class="card-header">
+                <span>نمودار فروش</span>
+                <div class="btn-group btn-group-sm mr-auto" role="group">
+                    <button type="button" class="btn btn-outline-light" ng-repeat="t in ::chartTypes"
+                            ng-class="{active:t.id==chartType}" ng-click="$parent.chartType=t.id;initChart();">{{::t.label}}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                <spinner></spinner>
+                <div style="width:100%;">
+                    <canvas id="sale_chart"></canvas>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card ">
+            <!-- BEGIN SEARCH BAR -->
+            <div class="card-header">
+                <span>کاربران بدهکار</span>
+
+            </div>
+            <div class="card-body">
+                <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                <spinner></spinner>
+                <div style="width:100%;">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="card" ng-controller="onlineUsersCtrl">
+            <!-- BEGIN SEARCH BAR -->
+            <div class="card-header">
+                <span>کاربران آنلاین</span>
+
+            </div>
+            <div class="card-body p-0">
+                <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                <spinner></spinner>
+                <div class=" rtl fade" ng-class="{show:loaded && users.length }">
+                    <table class="table text-right table-hover table-sm m-0">
+                        <thead>
+                        <tr class="">
+                            <th></th>
+                            <th>نام</th>
+                            <th>شماره تماس</th>
+                            <th>گروه</th>
+                            <th>آخرین ورود</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                        <tr ng-repeat="user in users" title="{{user.id}}">
+                            <td id="{{::user.id}}" class="text-center">{{::$index+1}}</td>
+                            <td><a href="user/{{user.id}}">{{user.name}}</a></td>
+                            <td>
+                                <a href="user/{{user.id}}">{{user.mobile}}</a>
+                            </td>
+                            <td>{{user.group_name}}</td>
+                            <td title="{{user.last_login|jdateLg}}">{{user.last_login|jdateSm}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

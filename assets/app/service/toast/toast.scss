@@ -1,0 +1,33 @@
+.toast {
+    position: fixed;
+    right: 0;
+    font-size: 12px;
+    text-align: right;
+    padding-right: 52px;
+    bottom: 0;
+    z-index: 9999999;
+    @include media-breakpoint-up(sm){
+
+    margin-right: 20px ;
+    }
+
+    &.alert-dismissible button.close{
+        top: 0;
+        right: 0;
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: #fff;
+        text-align: right;
+    }
+    -webkit-transform: translate3d(0,130%,0);
+    transform: translate3d(0,130%,0);
+    -webkit-transition: all .3s cubic-bezier(.25,.8,.25,1) !important;
+    transition: all .3s cubic-bezier(.25,.8,.25,1) !important;
+    &.show{
+        -webkit-transition: all .3s cubic-bezier(.55,0,.55,.2) !important;
+        transition: all .3s cubic-bezier(.55,0,.55,.2) !important;
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+    }
+}

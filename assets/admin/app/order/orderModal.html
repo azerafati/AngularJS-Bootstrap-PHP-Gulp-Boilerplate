@@ -1,0 +1,304 @@
+<div class="modal fade" ng-class="{loading:!loaded}" id="editProductModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title">{{order.code}} => {{order.user_full_name}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body rtl">
+                <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                <div class="row mb-3">
+                    <div class="col-sm-3" ng-show="order.id">
+                        <button class="btn btn-light btn-block " data-toggle="dropdown" ng-click="searchProduct(search)">
+                            افزودن محصول
+                            <svg class="icon">
+                                <use xlink:href="#svg-plus"></use>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu rtl text-right">
+                            <form class="px-1 py-0">
+                                <div class="form-group ">
+                                    <input type="text" class="form-control form-control-sm" placeholder="جستجو" ng-model="search" ng-change="searchProduct(search)">
+                                </div>
+                            </form>
+                            <div class="dropdown-divider"></div>
+                            <h6 class="dropdown-header" ng-show="!products.length">موردی یافت نشد </h6>
+                            <button class="dropdown-item p-0 px-1 " ng-repeat="product in products track by product.id" ng-click="addProduct(product)">
+                                <img class="d-inline-block" ng-src="{{product.img}}" height="30"/>
+                                <small class="align-middle">
+                                    {{product.name}} {{product.code}}
+                                </small>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right row no-gutters">
+                    <div class="col-sm-3">
+                        <user-select ng-model="order.user_id" ng-change="setUser(order.user_id)"></user-select>
+                    </div>
+                    <div class="mr-auto" ng-show="order.id">
+                        <button class="btn btn-light" data-toggle="dropdown">
+                            {{order.created_at|jdateLg:'jYY/jMM/jDD'}}
+                        </button>
+                        <div class="dropdown-menu rtl text-right">
+                            <form class="px-1 py-0">
+                                <div class="row no-gutters">
+                                    <div class="col-4">
+                                        <div class="form-group ">
+                                            <input type="text" class="form-control form-control-sm" placeholder="روز" ng-model="oDay">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group ">
+                                            <input type="text" class="form-control form-control-sm" placeholder="روز" ng-model="oMonth">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group ">
+                                            <input type="text" class="form-control form-control-sm" placeholder="روز" ng-model="oYear">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary btn-sm" ng-click="setOrderDate(oDay,oMonth,oYear)">ذخیره</button>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="fade table-responsive" ng-class="{show:loaded &&order.id}">
+                    <table class="table table-hover rtl text-right table-bordered table-sm ">
+                        <thead>
+                        <tr class="text-center table-info" ng-class="{'table-active':!order.is_wholesale}">
+                            <th ng-click="addItem()">#</th>
+                            <th></th>
+                            <th>نام</th>
+                            <th>کد</th>
+                            <th>
+                                فروش
+                            </th>
+                            <th>
+                                عمده
+                            </th>
+                            <th>وضعیت</th>
+                            <th>تعداد</th>
+                            <th colspan="2">
+                                وزن
+                            </th>
+                            <th colspan="2">
+                                خرید
+                            </th>
+                            <th>
+                                قیمت
+                            </th>
+                            <th>مبلغ</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center" title="{{item.id}}">
+                        <tr ng-repeat="item in order.order_items track by item.id">
+                            <td ng-click="removeItem(item)">
+                                <p class="item-idx">{{$index+1}}</p>
+                            </td>
+                            <td class="p-0">
+                                <img class="img-fluid" ng-src="{{item.product.img}}" width="80" ng-if="item.product.img"/>
+                            </td>
+                            <td td-input ng-model="item.product_name" ng-change="editItem(item,'product_name')" ng-if="!item.product.id"></td>
+                            <td ng-if="item.product.id">
+                                <small>
+
+                                    {{item.product.name}}<br/>
+                                </small>
+                            </td>
+                            <td style="width: 50px">
+                                <small>
+                                    {{item.product.code}}<br/>
+                                </small>
+                            </td>
+                            <td>{{item.product.price|number}}</td>
+                            <td>{{item.product.wholesale_price|number}}</td>
+                            <td class="text-center p-0 align-middle">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-toggle="dropdown">
+                                <span class="badge badge-pill text-white" ng-style="{'background-color':'#'+status[item.status].color}">
+                                       {{status[item.status].title}}
+                               </span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" ng-hide="st.id==item.status" ng-click="setStatus(item,st.id)" ng-repeat="st in status track by st.id">{{st.title}}</button>
+                                </div>
+                            </td>
+                            <td td-input ng-model="item.qty" type="number" ng-change="editItem(item,'qty')"></td>
+                            <td td-input ng-model="item.weight" type="number" ng-change="editItem(item,'weight')">
+                            <td>{{item.total_weight/1000|number}}</td>
+                            <td td-input ng-model="item.purchase_price" type="number" ng-change="editItem(item,'purchase_price')"></td>
+                            <td>{{item.total_purchase_price|number}}</td>
+                            <td td-input ng-model="item.price" type="number" ng-change="editItem(item,'price')"></td>
+                            <td>{{item.total_price|number}}</td>
+
+
+                        </tr>
+                        </tbody>
+                        <tfoot class="text-center">
+                        <tr>
+                            <td colspan="6"></td>
+                            <td colspan="1" class="text-left">جمع تعداد</td>
+                            <td colspan="1" class="text-center">{{order.total_qty | number}}</td>
+
+                            <td colspan="1" class="text-left">جمع وزن</td>
+                            <td colspan="1" class="text-center text-nowrap ltr">{{order.total_weight/1000 | number}}
+                                <small>kg</small>
+                            </td>
+
+                            <td colspan="1" class="text-left">جمع خرید</td>
+                            <td colspan="1" class="text-center">{{order.total_purchase_price | number}}</td>
+
+                            <td colspan="1" class="text-left">جمع قیمت</td>
+                            <td colspan="1" class="text-center">{{order.total_price | number}}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="8"></td>
+                            <td colspan="1" class="text-left">هزینه ارسال</td>
+                            <td td-input ng-model="order.shipment_cost" type="number" ng-change="editOrder('shipment_cost')"></td>
+
+                            <td td-input colspan="3" ng-model="order.shipment_price_title" class="text-left" type="text" ng-change="editOrder('shipment_price_title')" placeholder="مبلغ ارسال"></td>
+                            <td td-input ng-model="order.shipment_price" type="number" ng-change="editOrder('shipment_price')" class="text-center"></td>
+                        </tr>
+                        <tr>
+                            <td colspan="8"></td>
+                            <td colspan="1" class="text-left">هزینه بسته بندی</td>
+                            <td td-input ng-model="order.pkg_cost" type="number" ng-change="editOrder('pkg_cost')"></td>
+
+                            <td td-input colspan="3" ng-model="order.pkg_price_title" class="text-left" type="text" ng-change="editOrder('pkg_price_title')" placeholder="مبلغ بسته بندی"></td>
+                            <td td-input ng-model="order.pkg_price" type="number" ng-change="editOrder('pkg_price')" class="text-center"></td>
+                        </tr>
+                        <tr>
+                            <td td-input colspan="3" ng-model="order.extra_price3_title" type="text" ng-change="editOrder('extra_price3_title')"></td>
+                            <td td-input ng-model="order.extra_price3" type="number" ng-change="editOrder('extra_price3')"></td>
+                            <td td-input colspan="3" ng-model="order.extra_price2_title" type="text" ng-change="editOrder('extra_price2_title')"></td>
+                            <td td-input ng-model="order.extra_price2" type="number" ng-change="editOrder('extra_price2')"></td>
+                            <td td-input colspan="3" ng-model="order.extra_price1_title" type="text" ng-change="editOrder('extra_price1_title')" placeholder="هزینه های اضافی"></td>
+                            <td td-input ng-model="order.extra_price1" type="number" ng-change="editOrder('extra_price1')"></td>
+                            <td colspan="1" class="text-left">تخفیف</td>
+                            <td td-input ng-model="order.discount" type="number" ng-change="editOrder('discount')"></td>
+                        </tr>
+                        <tr ng-class="{'table-danger':order.profit_percent<1||order.profit<10000}">
+                            <td colspan="3">هزینه= {{order.cost|number}}</td>
+                            <td colspan="1">سود=</td>
+                            <td colspan="2" class="ltr">{{order.profit|number}}</td>
+                            <td colspan="1" class="ltr">{{order.profit_percent|number}} %</td>
+                            <th colspan="6" class="text-left">مبلغ قابل پرداخت</th>
+                            <th colspan="1" class="text-center">{{order.final_price | currency:'':0}}</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="text-right">
+                    <div class="ml-auto">
+                        <div class="btn-group ltr">
+                            <div class="dropdown-menu rtl text-right">
+                                <h6 class="dropdown-header" ng-show="!addresses.length">موردی یافت نشد </h6>
+                                <button class="dropdown-item p-0 px-1 " ng-repeat="address in addresses track by address.id" ng-click="setAddress(address)" title="{{address.id}}">
+                                    <small class="align-middle">
+                                        {{address.title}} -- {{address.name}} : {{address.province}} - {{address.city}} - {{address.detail}}
+                                    </small>
+                                </button>
+                            </div>
+                            <button class="btn btn-outline-dark rtl" data-toggle="dropdown" ng-click="searchAddress()">
+                                گیرنده:
+                                {{order.address_name}} : {{order.address_province}} - {{order.address_city}} - {{order.address_detail}} ({{order.address_postalcode}})
+                            </button>
+                            <a class="btn btn-outline-dark" href="address/{{order.address_id}}"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade table-responsive" ng-class="{show:paymentloaded}">
+                    <table class="table table-hover rtl text-right table-bordered table-sm">
+                        <thead>
+                        <tr class="table-active text-center">
+                            <th>#</th>
+                            <th>توسط</th>
+                            <th>نوع پرداخت</th>
+                            <th>تاریخ</th>
+                            <th>
+                                وضعیت
+                            </th>
+                            <th>مبلغ</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-center" title="{{payment.id}}">
+                        <tr ng-repeat="payment in payments track by payment.id">
+                            <td>
+                                <p class="item-idx">{{$index+1}}</p>
+                            </td>
+                            <td>
+                                <small>
+                                    {{payment.user_full_name}}<br/>
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{item.product.code}}<br/>
+                                </small>
+                            </td>
+                            <td>{{item.product.price|number}}</td>
+                            <td>{{item.product.wholesale_price|number}}</td>
+                            <td class="text-center p-0 align-middle">
+                                <button type="button" class="btn btn-sm btn-outline-light" data-toggle="dropdown">
+                                <span class="badge badge-pill text-white" ng-style="{'background-color':'#'+status[item.status].color}">
+                                       {{status[item.status].title}}
+                               </span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <button class="dropdown-item" ng-hide="st.id==order.status" ng-click="setStatus(item,st.id)" ng-repeat="st in status track by st.id">{{st.title}}</button>
+                                </div>
+                            </td>
+                            <td td-input ng-model="item.qty" type="number" ng-change="editItem(item,'qty')"></td>
+                            <td td-input ng-model="item.weight" type="number" ng-change="editItem(item,'weight')">
+                            <td>{{item.total_weight/1000|number}}</td>
+                            <td td-input ng-model="item.purchase_price" type="number" ng-change="editItem(item,'purchase_price')"></td>
+                            <td>{{item.total_purchase_price|number}}</td>
+                            <td td-input ng-model="item.price" type="number" ng-change="editItem(item,'price')"></td>
+                            <td>{{item.total_price|number}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+                <button class="btn btn-info mr-auto" type="button" ng-click="order.id=null" ng-if="order.id">
+                    جدید
+                </button>
+                <button class="btn btn-outline-secondary" type="button" ng-click="editOrder('shipment_pkg',true)">
+                    محاسبه ارسال
+                </button>
+                <button class="btn btn-info" type="button" ng-if="!order.is_wholesale" ng-click="editOrder('is_wholesale',true)">
+                    به قیمت عمده
+                </button>
+                <button class="btn btn-secondary" type="button" ng-if="order.is_wholesale" ng-click="editOrder('is_wholesale',false)">
+                    به قیمت خرده
+                </button>
+                <button class="btn btn-primary" type="button" ng-click="print()">
+                    چاپ فاکتور
+                </button>
+                <button class="btn btn-primary" type="button" ng-click="print(true)">
+                    تصویر فاکتور
+                </button>
+                <button class="btn btn-primary" type="button" ng-click="printAddress()">
+                    چاپ آدرس
+                </button>
+                <button class="btn btn-success" type="button" ng-if="order.is_open" ng-click="editOrder('is_open',false)">
+                    ثبت
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>

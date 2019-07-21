@@ -1,0 +1,16 @@
+<?php
+
+abstract class Permission{
+    const ADMIN_DASHBOARD = 'ADMIN_DASHBOARD';
+    const SETTING = 'SETTING';
+    const ACCOUNTING = 'ACCOUNTING';
+    const USER_MANAGEMENT = 'USER_MANAGEMENT';
+    const DAILY_SALES_CHART = 'DAILY_SALES_CHART';
+    const CONTENT_MANAGEMENT = 'CONTENT_MANAGEMENT';
+    const PAYMENTS = 'PAYMENTS';
+
+
+
+}
+
+

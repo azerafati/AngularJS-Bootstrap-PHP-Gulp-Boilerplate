@@ -1,0 +1,37 @@
+[td-input] {
+  vertical-align: middle !important;
+  .form-group {
+    margin: 0;
+    text-align: inherit;
+    input.form-control {
+      padding-left: 0;
+      padding-right: 0;
+      border: 0;
+      text-align: inherit;
+      &[type=number]::-webkit-inner-spin-button,
+      &[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+  }
+  &[remove] {
+    position: relative;
+    span.remove-btn {
+      color: #ff0002;
+      position: absolute;
+      z-index: 1;
+      right: 2px;
+      top: 2px;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity .5s;
+      line-height: 10px;
+    }
+
+    &:hover span.remove-btn {
+      opacity: 1;
+    }
+  }
+}

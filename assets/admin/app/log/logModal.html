@@ -1,0 +1,75 @@
+<div class="modal fade " ng-class="{loading:loading}" id="editarticleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title">{{article.title}} => {{article.id}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body col-12">
+                <form class="rtl form row" name="articleEditForm" id="articleEditForm" ng-submit="save(article)">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group form-group-sm">
+                                    <label>عنوان</label>
+                                    <input type="text" class="form-control" ng-model="article.title"/>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-8">
+                                <div class="form-group form-group-sm">
+                                    <label>تصویر</label>
+                                    <input type="text" class="form-control ltr" ng-model="article.img"/>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-sm">
+                                    <label> لینک</label>
+                                    <input type="text" class="form-control ltr" ng-model="article.url"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-sm">
+                                    <label>دسته بندی</label>
+                                    <button class="btn btn-outline-dark btn-block" type="button" ng-click="selectCategory()">
+                                        <span ng-repeat="c in article.categories">{{c.name+(!$last?',':'')}} </span>
+                                        <span ng-if="!article.categories.length">دسته را انتخاب کنید ...</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group form-group-sm ">
+                                <textarea rows="3" type="text" class="form-control" ng-model="article.seodesc">
+
+                                </textarea>
+                            <label>نتیجه جستجوی گوگل (فقط 160 کاراکتر) <span class="badge badge-dark">{{article.seodesc.length}}</span></label>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="articlehidden" ng-model="article.hidden">
+                                <label class="custom-control-label" for="articlehidden">مخفی</label>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-info mr-auto" type="button" ng-click="article.id=null" ng-if="article.id">
+                    جدید
+                </button>
+                <button class="btn btn-success" type="submit" form="articleEditForm">
+                    ذخیره
+                </button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+            </div>
+        </div>
+    </div>
+</div>

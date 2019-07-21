@@ -1,0 +1,73 @@
+@import "bootstrap";
+@import "font";
+@import "sprite";
+@import "../app/*";
+
+html {
+  //overflow-y:scroll;
+  //overflow-x:hidden;
+}
+
+body {
+  background: #e5e6e6;
+  & > .container {
+    min-height: 300px;
+  }
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.row.half-gutter {
+  margin-right: -6px;
+  margin-left: -6px;
+  & > .col,
+  & > [class*="col-"] {
+    padding-right: 6px;
+    padding-left: 6px;
+  }
+}
+
+.breadcrumb {
+  direction: rtl;
+}
+
+
+.card {
+  margin-bottom: 12px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.text-sm {
+  font-size: small;
+}
+
+.breadcrumb {
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  background-color: $card-bg;
+}
+
+.hardfade:not(.show) {
+  transition: visibility 0s ease 1s, overflow 0s ease 1s, all 1s ease;
+  -webkit-transition: visibility 0s ease 1s, overflow 0s ease 1s, all 1s ease;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+  max-height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.hardfade.show {
+  transition: visibility 0s ease 0s, all 1s ease;
+  -webkit-transition: visibility 0s ease 0s, all 1s ease;
+  visibility: visible;
+  opacity: 1;
+  max-height: inherit;
+}
+

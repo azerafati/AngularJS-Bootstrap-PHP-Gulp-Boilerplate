@@ -1,0 +1,16 @@
+# Turn mod_rewrite on
+
+<IfModule mod_headers.c>
+   # Header set X-Powered-By: @azerafati
+    Header set X-By: @azerafati
+    Header unset Server
+    Header unset x-turbo-charged-by
+</IfModule>
+RewriteEngine On
+Options -Indexes +FollowSymLinks
+
+# RewriteCond %{HTTP_HOST} ^.*roshankaranmahan\.com
+# RewriteRule (.*) roshankaranmahan/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule .* index.php [L]

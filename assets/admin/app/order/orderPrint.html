@@ -1,0 +1,161 @@
+<div class="container-fluid" id="order-print">
+    <div class="row no-gutters">
+
+        <div class="col-9 text-right rtl">
+            <div class="row half-gutter h-100 align-items-end" ng-show="!order.user_company">
+                <div class="col-7">
+                    <p class="text-nowrap mb-2">
+                        <small>کد سفارش:</small>
+                        {{order.code}}
+                    </p>
+                    <p class=" mb-1">
+                        <small>خریدار:</small>
+                        {{order.user_full_name}}
+                    </p>
+                </div>
+                <div class="col-5">
+                    <p class="text-left mb-2">
+                        <small>تاریخ:</small>
+                        {{order.created_at|jdate:'jYY/jMM/jDD' }}
+                    </p>
+                    <p class="text-left mb-1">
+                        <small>تلفن:</small>
+                        {{order.user_tel}}
+                    </p>
+                </div>
+            </div>
+            <div class="row half-gutter h-100 align-items-end" ng-show="order.user_company">
+                <div class="col-7">
+                    <p class="text-nowrap mb-2">
+                        <small>کد سفارش:</small>
+                        {{order.code}}
+                    </p>
+
+                </div>
+                <div class="col-5">
+                    <p class="text-left mb-2">
+                        <small>تاریخ:</small>
+                        {{order.created_at|jdate:'jYY/jMM/jDD' }}
+                    </p>
+                </div>
+                <div class="col-12">
+                    <p class=" mb-1">
+                        <small>شرکت/فروشگاه:</small>
+                        {{order.user_company}}
+                        <small class="mr-1 d-inline-block">  توسط:</small>
+                        {{order.user_full_name}}
+
+                        <span> - {{order.user_tel}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-3 text-left">
+            <img src="/res/img/main-site.png" class="p-1 m-0 img-fluid">
+        </div>
+
+        <div class="col-12">
+            <table class="table table-bordered table-striped rtl text-center table-sm w-100">
+                <thead>
+                <tr class="table-active">
+                    <th>
+
+                    </th>
+                    <th ng-if="showImages">
+                        تصویر
+                    </th>
+                    <th>
+                        کالا
+                    </th>
+                    <th>
+                        کد
+                    </th>
+                    <th>
+                        تعداد
+                    </th>
+                    <th>
+                        قیمت واحد
+                    </th>
+                    <th>
+                        جمع
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in order.order_items">
+                    <td>
+                        {{$index+1}}
+                    </td>
+                    <td class="p-0" ng-if="showImages">
+                        <img class="img-fluid" ng-src="{{item.product.img}}" width="80"/>
+                    </td>
+                    <td>{{item.product.name}}</td>
+                    <td>{{item.product.code}}</td>
+                    <td>{{item.qty|number}}</td>
+                    <td>{{item.price|number}}</td>
+                    <td>{{item.total_price|number}}</td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        جمع قیمت
+                    </th>
+                    <th>{{order.total_price|number}}</th>
+                </tr>
+                <tr>
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        {{order.shipment_price_title||"هزینه ارسال"}}
+                    </th>
+                    <th>{{order.shipment_price|number}}</th>
+                </tr>
+                <tr>
+
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        {{order.pkg_price_title||"هزینه بسته بندی"}}
+
+                    </th>
+                    <th>{{order.pkg_price|number}}</th>
+                </tr>
+                <tr ng-if="order.extra_price1">
+
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        {{order.extra_price1_title}}
+                    </th>
+                    <th>{{order.extra_price1|number}}</th>
+                </tr>
+                <tr ng-if="order.extra_price2">
+
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        {{order.extra_price2_title}}
+                    </th>
+                    <th>{{order.extra_price2|number}}</th>
+                </tr>
+                <tr ng-if="order.extra_price3">
+
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        {{order.extra_price3_title}}
+                    </th>
+                    <th>{{order.extra_price3|number}}</th>
+                </tr>
+                <tr ng-if="order.discount">
+
+                    <th colspan="{{showImages?6:5}}" class="text-left">
+                        تخفیف
+                    </th>
+                    <th>{{order.discount|number}}</th>
+                </tr>
+                <tr>
+
+                    <th colspan="{{showImages?6:5}}" class="final-price-title text-left">
+                        مبلغ قابل پرداخت
+                    </th>
+                    <th class="final-price">{{order.final_price|number}}</th>
+                </tr>
+                </tfoot>
+            </table>
+
+        </div>
+    </div>
+</div>

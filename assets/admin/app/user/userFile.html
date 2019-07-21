@@ -1,0 +1,26 @@
+<div class="card mb-4" id="user-file" ng-controller="userFileCtrl">
+    <!-- BEGIN SEARCH BAR -->
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs rtl">
+            <li class="nav-item">
+                <a class="nav-link active" data-target="#visits" href="#" data-toggle="tab">لیست مشاوره ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-target="#cycle" href="#" data-toggle="tab">چرخه ازدواج</a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body rtl text-right">
+        <spinner></spinner>
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="visits">
+                <ng-include ng-if="activePane=='visits'" data-src="'/assets/admin/app/user/userAppointmentList.html'"></ng-include>
+            </div>
+            <div class="tab-pane fade " id="cycle">
+                <ng-include ng-if="activePane=='cycle'" data-src="'/assets/admin/app/marriage-cycle/marriageCycle.html'"></ng-include>
+            </div>
+        </div>
+
+    </div>
+</div>
+

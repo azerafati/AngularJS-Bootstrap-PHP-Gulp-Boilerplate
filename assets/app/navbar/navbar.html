@@ -1,0 +1,38 @@
+<a class="navbar-brand pb-0 d-flex align-items-center" href="/" target="_blank">
+    <img src="/assets/img/logo.png" class="ml-2 mb-2" height="50" alt="boilerplate">
+</a>
+<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+</button>
+<div class="collapse navbar-collapse flex-grow-0" id="navbar">
+    <ul class="navbar-nav nav nav-pills text-right mr-auto rtl fade " ng-class="{show:loaded}">
+        <li class="nav-item dropdown ml-5 " ng-if="!user.is_guest">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                <img ng-src="{{user.profileImage}}" class="rounded-circle avatar" ng-if="user.profileImage">
+                {{user.name}}
+            </a>
+            <div class="dropdown-menu  dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" ng-if="hasPermission('ADMIN_DASHBOARD')" ng-href="/admin/dashboard" target="_self">پنل مدیریت</a>
+                <a class="dropdown-item" ng-if="hasPermission('EXAMPLE_PERMISSION')" ng-href="/exmaple-page">بخش محدود</a>
+                <a class="dropdown-item" ng-href="/profile">پروفایل من</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="/logout" target="_self">خروج از حساب کاربری</a>
+            </div>
+        </li>
+        <li class="nav-item ml-5" ng-if="user.is_guest">
+            <a class="nav-link" href="/login">
+                کاربر مهمان
+                <small>(ورود / ثبت نام)</small>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/" ng-class="{active:path=='/'}">خانه</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/لیست" ng-class="{active:path=='/لیست'}">لیست</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/سبد-خرید" ng-class="{active:path=='/سبد-خرید'}">سبد خرید</a>
+        </li>
+    </ul>
+</div>

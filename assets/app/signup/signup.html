@@ -1,0 +1,122 @@
+<div class="container ltr">
+    <div class="row">
+        <div class="col-sm-8 mt-5 mb-5 offset-sm-2">
+
+            <div class="card ">
+                <div class="card-header">
+                    ثبت نام
+                </div>
+                <div class="card-body rtl">
+
+                    <form ng-submit="submit($event)" name="signupForm">
+                        <div class="form-row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>نام</label>
+                                    <input name="mobile" type="text" ng-model="user.fname"
+                                           class="form-control rtl" placeholder=""
+                                           required
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>نام خانوادگی</label>
+                                    <input name="mobile" type="text" ng-model="user.lname"
+                                           class="form-control rtl" placeholder=""
+                                           required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label>شماره موبایل</label>
+                                    <input name="mobile" type="mobile" ng-model="user.mobile"
+                                           ng-pattern="/(^09[0-9]{9}$)|(^۰۹[۰-۹]{9}$)/"
+                                           class="form-control ltr"
+                                           ng-class="{
+                                       'is-invalid':signupForm.mobile.$invalid && !signupForm.mobile.$pristine,
+                                       'is-valid':signupForm.mobile.$valid && !signupForm.mobile.$pristine}"
+                                           required
+                                           oninvalid="this.setCustomValidity('شماره موبایل باید  وارد شود')"
+                                           oninput="this.setCustomValidity('')"/>
+                                    <div class="invalid-feedback">شماره موبایل وارد شده صحیح نیست</div>
+                                </div>
+                            </div>
+                            <div class="col-6 text-right">
+                                <label>جنسیت</label>
+                                <div class="row">
+                                    <div class="custom-control custom-radio custom-control-inline col">
+                                        <input type="radio" id="customRadio1" name="genderRadio"
+                                               class="custom-control-input" ng-model="user.gender" value="FEMALE">
+                                        <label class="custom-control-label w-100 pink" for="customRadio1">خانم</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline col">
+                                        <input type="radio" id="customRadio2" name="genderRadio"
+                                               class="custom-control-input" ng-model="user.gender" value="MALE">
+                                        <label class="custom-control-label w-100" for="customRadio2">آقا</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-6">
+                                <div class="form-group ">
+                                    <label>کلمه عبور</label>
+                                    <div class="input-group ltr">
+
+                                        <input name="pass" type="password" ng-model="newuser.pass"
+                                               class="form-control ltr"
+                                               ng-class="{'is-invalid':signupForm.pass.$invalid && !signupForm.pass.$pristine}" required
+                                               ng-minlength="5"
+                                               oninvalid="this.setCustomValidity('لطفا کلمه عبور را وارد کنید')"
+                                               oninput="this.setCustomValidity('')" autocomplete="new-password"
+                                               value=""/>
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <svg class="icon">
+                                                    <use xlink:href="#svg-key"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="invalid-feedback"> کلمه عبور نمی تواند کمتر از پنج کاراکتر باشد</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group ">
+                                    <label>تکرار کلمه عبور</label>
+                                    <div class="input-group ltr">
+
+                                        <input name="passver" type="password" ng-model="newuser.passver"
+                                               class="form-control ltr"
+                                               ng-class="{'is-invalid':signupForm.passver.$invalid && !signupForm.passver.$pristine}" required
+                                               ng-pattern="getPattern()"
+                                               oninvalid="this.setCustomValidity('لطفا دوباره کلمه عبور را وارد کنید')"
+                                               oninput="this.setCustomValidity('')" autocomplete="off"/>
+
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <svg class="icon">
+                                                    <use xlink:href="#svg-key"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="invalid-feedback"> تکرار کلمه عبور برابر نیست</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-block mt-3 " ng-class="{loading:loading}"
+                                ng-disabled="!signupForm.$valid">
+                            تایید و ثبت نام
+                            <i class="fa fa-check fa-lg"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

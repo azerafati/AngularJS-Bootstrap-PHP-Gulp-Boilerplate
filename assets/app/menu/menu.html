@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-white rtl">
+    <a class="navbar-brand align-middle" href="https://boilerplate.com" target="_self">
+        <img src="/res/img/logo.png"/>
+        <div class="d-inline-block text-center">
+
+            <h4 class="font-weight-bold text-secondary m-0">boilerplate</h4>
+            <h5 class="text-secondary m-0">دست آفریده های خاکی</h5>
+        </div>
+    </a>
+    <div class="btn-group btn-group-sm order-sm-2 ltr">
+        <a href="/cart" class="btn btn-primary" aria-expanded="false" ng-controller="cartBtnCtrl">
+            <svg class="icon">
+                <use xlink:href="#svg-cart"></use>
+            </svg>
+            <span class="badge badge-light" ng-cloak>{{cart.orderItems.length}}</span>
+        </a>
+    </div>
+    <div class="navbar-collapse ml-sm-4 no-gutters ltr" id="navbar" itemscope itemtype="http://schema.org/WebSite">
+        <meta itemprop="url" content="https://boilerplate.com"/>
+        <form class="form-inline my-2 my-lg-0 col-sm-11 col-md-8 col-lg-4" ng-submit="search()" ng-controller="searchCtrl" itemprop="potentialAction" itemscope itemtype="http://schema.org/SearchAction">
+            <meta itemprop="target" content="https://boilerplate.com/search/{search}"/>
+            <div class="input-group input-group-sm w-100">
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <svg class="icon">
+                            <use xlink:href="#svg-search"></use>
+                        </svg>
+                    </button>
+                </div>
+                <input type="text" ng-model="sq" name="search" class="form-control rtl" placeholder="محصول یا دسته مورد نظرتان را جستجو کنید ..." aria-label="" aria-describedby="basic-addon1" required itemprop="query-input">
+            </div>
+        </form>
+    </div>
+</nav>
+<nav ng-controller="menuCtrl" class="navbar-light p-0">
+    <div class="navbar-collapse" id="cats">
+        <ul class="navbar-nav fade show " ng-class="{in:load}" id="navbar-lg">
+            <li class="nav-item dropdown ml-5 " ng-if="!user.is_guest">
+                <a class="nav-link dropdown-toggle p-1" href="#" role="button" data-toggle="dropdown">
+                    <img ng-src="{{user.profileImage}}" class="rounded-circle avatar" ng-if="user.profileImage">
+                    {{user.pre}} {{user.name}}
+                </a>
+                <div class="dropdown-menu  dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" ng-if="user.is_admin" ng-href="/admin/dashboard" target="_self">پنل مدیریت</a>
+                    <a class="dropdown-item" ng-href="profile">پروفایل من</a>
+                    <a class="dropdown-item" ng-href="orders">سفارش های من</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout" target="_self">خروج از حساب کاربری</a>
+                </div>
+            </li>
+            <li class="nav-item ml-5" ng-if="user.is_guest">
+                <a class="nav-link" href="/login">
+                    کاربر مهمان
+                    <small class="mr-1"> (ورود / ثبت نام)</small>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/" class="nav-link">
+                    <svg class="icon home">
+                        <use xlink:href="#svg-home"></use>
+                    </svg>
+                    خانه
+                </a>
+            </li>
+            <li ng-repeat-start="menu in categories" class="nav-item" ng-init="drop=menu.nodes.length>0" ng-cloak>
+                <a ng-href="/{{menu.url}}" class="nav-link">
+                    <svg class="icon" ng-if="drop">
+                        <use xlink:href="#svg-arrow-down"></use>
+                    </svg>
+                    {{menu.title}}
+                </a>
+            </li>
+            <div class="nav-dropdown-menu box-shadow" ng-repeat-end ng-if="drop">
+                <section ng-repeat="ct in menu.nodes" ng-style="{'background-image': 'url(/res/img/menu/'+ct.img+'.jpg)'}">
+                    <a ng-href="/{{ct.url}}"></a>
+                    <p class="title">{{ct.title}}</p>
+                    <!--<img ng-src="/res/img/menu/{{ct.img}}.jpg" alt="" ng-if="ct.img" />-->
+                </section>
+            </div>
+            <li class="nav-item invisible">
+                <a href="#" class="nav-link">&nbsp;</a>
+            </li>
+        </ul>
+        <ul class=" fade" ng-class="{show:load}" id="navbar-xs">
+
+            <div class="btn-group btn-group-sm" ng-if="user.is_guest">
+                <a class="btn btn-secondary" href="/login">
+                    کاربر مهمان
+                    <small class="mr-1"> (ورود / ثبت نام)</small>
+                </a>
+            </div>
+            <div class="btn-group btn-group-sm" ng-if="!user.is_guest">
+                <a class="btn btn-light dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    <img ng-src="{{user.profileImage}}" class="rounded-circle avatar" ng-if="user.profileImage">
+                    {{user.pre}} {{user.name}}
+                </a>
+                <div class="dropdown-menu  dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" ng-if="user.is_admin" ng-href="/admin/dashboard" target="_self">پنل مدیریت</a>
+                    <a class="dropdown-item" ng-href="profile">پروفایل من</a>
+                    <a class="dropdown-item" ng-href="orders">سفارش های من</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout" target="_self">خروج از حساب کاربری</a>
+                </div>
+            </div>
+            <div class="btn-group btn-group-sm">
+                <a class="btn btn-outline-dark" type="button" href="/">
+                    <svg class="icon home">
+                        <use xlink:href="#svg-home"></use>
+                    </svg>
+                    خانه</a>
+            </div>
+            <div class="btn-group btn-group-sm" ng-repeat="menu in categories" ng-init="drop=menu.nodes.length>0">
+                <a class="btn btn-outline-dark" type="button" ng-href="/{{menu.url}}">{{menu.title}}</a>
+                <div class="btn-group btn-group-sm" role="group" ng-if="drop">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right" ng-if="drop">
+                        <a class="dropdown-item" ng-repeat="sub in menu.nodes" ng-href="/{{sub.url}}">{{sub.title}}</a>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div>
+</nav>

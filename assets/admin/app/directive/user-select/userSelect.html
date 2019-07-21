@@ -1,0 +1,31 @@
+<button class="btn btn-light btn-block " type="button" data-toggle="dropdown" ng-click="searchUsers(qUser)">
+    <span ng-if="!user" class="text-muted"><span ng-if="!placeholder">انتخاب کاربر</span><span ng-if="placeholder">{{placeholder}}</span></span>
+    <span ng-if="user">{{user.name||user.mobile}}</span>
+</button>
+<div class="dropdown-menu rtl text-right">
+    <form class="px-1 py-0 ltr">
+        <div class="form-group px-1 py-0 m-0">
+            <input type="text" class="form-control form-control-sm" placeholder="جستجو" ng-model="qUser"
+                   ng-change="searchUsers(qUser)" ng-model-options="{ debounce: 600 }">
+        </div>
+    </form>
+    <div class="dropdown-divider mb-0"></div>
+    <div class="position-relative mb-2">
+        <loading class="fade" ng-class="{show:loading}"></loading>
+    </div>
+    <h6 class="dropdown-header" ng-show="!users.length">موردی یافت نشد </h6>
+    <button class="dropdown-item p-1 px-1 " type="button" ng-repeat="user in users track by user.id"
+            ng-click="setUser(user)"
+            title="{{user.id}}">
+        <small class="align-middle">
+            {{user.name}} {{user.mobile}}
+        </small>
+    </button>
+    <div class="dropdown-divider mb-0"></div>
+    <button class="dropdown-item btn-sm text-center " type="button" ng-click="new()">
+        <svg class="icon">
+            <use xlink:href="#svg-plus"></use>
+        </svg>
+        افزودن بیمار
+    </button>
+</div>

@@ -1,0 +1,226 @@
+<div class="modal fade " ng-class="{loading:loading}" id="editProductModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title">{{product.name}} => {{product.id}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class=" form " name="productEditForm" id="productEditForm" ng-submit="save(product)">
+                <div class="modal-body container rtl">
+
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>نام محصول</label>
+                                <input type="text" class="form-control" ng-model="product.name"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>کد محصول</label>
+                                <input type="text" class="form-control" ng-model="product.code"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>وزن (گرم)</label>
+                                <input type="text" class="form-control ltr" ng-model="product.weight"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group form-group-sm">
+                                <label>موجودی</label>
+                                <input type="text" class="form-control ltr" ng-model="product.stock"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>قیمت (تومان)</label>
+                                <input type="text" class="form-control ltr" ng-model="product.price"/>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>قیمت قبلی</label>
+                                <input type="text" class="form-control ltr" ng-model="product.old_price"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>قیمت عمده فروشی</label>
+                                <input type="text" class="form-control ltr" ng-model="product.wholesale_price"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>قیمت خرید</label>
+                                <input type="text" class="form-control ltr" ng-model="product.purchase_price"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label> لینک محصول</label>
+                                <input type="text" class="form-control ltr" ng-model="product.url"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label>دسته بندی</label>
+                                <button class="btn btn-outline-dark btn-block" type="button" ng-click="selectCategory()">
+                                    <span ng-repeat="c in product.categories">{{c.name+(!$last?',':'')}} </span>
+                                    <span ng-if="!product.categories.length">دسته محصول را انتخاب کنید ...</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row text-right">
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-switch ltr">
+                                <input type="checkbox" class="custom-control-input" id="customSwitchHidden" ng-model="product.hidden" value="true">
+                                <label class="custom-control-label" for="customSwitchHidden">مخفی</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-sm ">
+                                <label>توضیحات</label>
+                                <textarea id="info" type="text" class="form-control" rows="5" ng-model="product.info"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+
+                            <div class="form-group form-group-sm ">
+                                <label>نتیجه جستجوی گوگل (فقط 160 کاراکتر) <span class="badge badge-dark">{{product.seodesc.length}}</span></label>
+                                <input type="text" class="form-control" ng-change="monitorLength(160)" ng-model="product.seodesc"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+
+                            <div class="form-group form-group-sm">
+                                <div class="custom-control custom-switch ltr">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch1" ng-model="product.watermark" value="true">
+                                    <label class="custom-control-label" for="customSwitch1">واترمارک تصاویر</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-sm">
+                                <label> تصاویر</label>
+                                <input type="file" multiple="multiple" name="file[]" id="imgFiles">
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>ارتفاع</label>
+                                <input type="text" class="form-control ltr" ng-model="product.height"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>عرض</label>
+                                <input type="text" class="form-control ltr" ng-model="product.width"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>قطر دهانه</label>
+                                <input type="text" class="form-control ltr" ng-model="product.opening_diameter"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>پوشش بدنه</label>
+                                <input type="text" class="form-control ltr" ng-model="product.body_cover"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>جنس بدنه</label>
+                                <input type="text" class="form-control ltr" ng-model="product.body_type"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>تعداد در کارتن</label>
+                                <input type="number" class="form-control ltr" ng-model="product.box_qty"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>رنگ بندی داخل کارتن</label>
+                                <input type="text" class="form-control ltr" ng-model="product.box_color"/>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>نوع کاربری</label>
+                                <input type="text" class="form-control ltr" ng-model="product.usecase"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>مناسب برای</label>
+                                <input type="text" class="form-control ltr" ng-model="product.suitable_for"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>نحوه مراقبت</label>
+                                <input type="text" class="form-control ltr" ng-model="product.care_tip"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <label>محل تولید</label>
+                                <input type="text" class="form-control ltr" ng-model="product.produced_in" placeholder="لالجین"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+
+                            <div class="form-group form-group-sm">
+                                <label>وضعیت تولید</label>
+                                <select name="" id="" class="form-control" ng-model="product.production_status">
+                                    <option value="IN_PRODUCTION">در حال تولید</option>
+                                    <option value="NOT_PRODUCED">توقف تولید</option>
+                                    <option value="LIMITED_PRODUCTION">تولید محدود</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-group-sm">
+                                <div class="custom-control custom-switch ltr">
+                                    <input type="checkbox" class="custom-control-input" id="customSwitch-wholesale" ng-model="product.is_wholesale" value="true">
+                                    <label class="custom-control-label" for="customSwitch-wholesale">تنها فروش عمده</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info mr-auto" type="button" ng-click="product.id=null;product.code=null;product.url=null;" ng-if="product.id">
+                        جدید
+                    </button>
+                    <button class="btn btn-success" type="submit" form="productEditForm">
+                        ذخیره
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

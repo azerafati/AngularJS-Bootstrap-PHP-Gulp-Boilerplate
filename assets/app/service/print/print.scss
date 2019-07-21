@@ -1,0 +1,6 @@
+//print specific styles
+@media print{
+  .modal,.modal-backdrop{
+    display: none !important;
+  }
+}

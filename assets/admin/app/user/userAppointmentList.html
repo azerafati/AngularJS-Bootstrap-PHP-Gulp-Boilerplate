@@ -1,0 +1,53 @@
+<div ng-controller="userAppointmentList" id="userAppointmentList">
+    <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+    <spinner></spinner>
+    <div class="col-12" ng-repeat="appointment in appointments">
+        <div class="card mb-3 overflow-hidden">
+            <div class="row no-gutters">
+
+                <div class="col-1 align-items-center d-flex justify-content-center bg-secondary ">
+                    <h4><span class=" badge badge-primary">{{appointments.length-$index}}</span></h4>
+                </div>
+                <div class="col-4">
+
+                    <div class="card-body bg-transparent">
+                        <p class="card-text text-secondary" title="{{appointment.start_at|jdateLg}}">
+                            {{appointment.start_at|jdateLg:'jYY/jMM/jDD'}}
+                        </p>
+                        <p class="card-text text-secondary">
+                        <h6>
+                            <span class="badge badge-secondary" ng-style="{'background-color': statuses[appointment.status].color}">{{statuses[appointment.status].title}}</span>
+                        </h6>
+                        </p>
+                        <p class="card-text" ng-if="appointment.status<3">
+                            <small>عنوان مراجعه :</small>
+                            {{appointment.case_type}}
+                        </p>
+                        <p class="card-text" ng-if="appointment.info">
+                            <small>توضیحات پذیرش :</small>
+                            {{appointment.info}}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-7" ng-if="appointment.status<3">
+                    <div class="card-body bg-transparent p-1">
+                        <p class="card-text">
+                            <small>توضیحات و دستور مشاور:</small>
+                            {{appointment.prescription}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-sm btn-outline-dark edit-appointment" ng-click="summary(appointment)">
+                ویرایش
+            </button>
+        </div>
+    </div>
+    <div class="alert alert-warning mt-4 rtl" ng-if="!appointments.length && loaded">
+        <svg class="icon icon-lg">
+            <use xlink:href="#svg-warning"></use>
+        </svg>
+        مشاوره ای برای این شخص ثبت نشده است!
+    </div>
+
+</div>

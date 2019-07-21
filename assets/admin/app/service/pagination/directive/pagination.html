@@ -1,0 +1,21 @@
+<nav class="d-inline-block">
+    <ul class="pagination pagination-sm m-0 mr-2" ng-if="page" ng-hide="page.total<=page.size" >
+        <li class="page-item" ng-class="{active:page.number==1}"><button class="page-link" ng-click="gotToPage(1)">1</button></li>
+
+        <li class="page-item disabled" ng-if="page.number-2>2"><button class="page-link">...</button></li>
+
+
+        <li class="page-item" ng-class="{active:page.number==page.number-2}" ng-if="page.number-2>1"><button class="page-link" ng-click="gotToPage(page.number-2)">{{page.number-2}}</button></li>
+        <li class="page-item" ng-class="{active:page.number==page.number-1}" ng-if="page.number-1>1"><button class="page-link" ng-click="gotToPage(page.number-1)">{{page.number-1}}</button></li>
+        <li class="page-item" ng-class="{active:page.number==page.number}" ng-if="page.number>1 && page.number<pages"><button class="page-link" ng-click="gotToPage(page.number)">{{page.number}}</button></li>
+        <li class="page-item" ng-class="{active:page.number==page.number+1}" ng-if="page.number+1<pages"><button class="page-link" ng-click="gotToPage(page.number+1)">{{page.number+1}}</button></li>
+        <li class="page-item" ng-class="{active:page.number==page.number+2}" ng-if="page.number+2<pages"><button class="page-link" ng-click="gotToPage(page.number+2)">{{page.number+2}}</button></li>
+
+
+
+        <li class="page-item disabled" ng-if="page.number+2<pages-1"><button class="page-link">...</button></li>
+
+        <li class="page-item" ng-class="{active:pages==page.number}" ng-if="pages>1"><button class="page-link" ng-click="gotToPage(pages)" >{{::pages}}</button></li>
+    </ul>
+</nav>
+<span class="badge badge-secondary ">{{page.total}}</span>

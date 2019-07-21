@@ -1,0 +1,88 @@
+<div class="row" row-animated>
+    <div class="col-12">
+        <div class="card ">
+            <!-- BEGIN SEARCH BAR -->
+            <div class="card-header">
+                <span>محصولات</span>
+                <div class="mr-auto">
+                    <button class="btn btn-sm btn-success" ng-click="edit({})">محصول جدید
+                        <svg class="icon">
+                            <use xlink:href="#svg-plus"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <spinner></spinner>
+
+                <div class="mt-3">
+                    <div class="row">
+                        <pagination class="col"></pagination>
+                        <search-toolbar class="col-sm-4 col-lg-3 search-toolbar col"></search-toolbar>
+                        <chk-all name="محصول" chk-service="chkService">
+                            <a class="dropdown-item" ng-click="deleteProducts()">حذف</a>
+                            <a class="dropdown-item" ng-click="selectCategories()">دسته بندی</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" ng-click="barcodePrintSetting()">چاپ بارکد</a>
+                        </chk-all>
+                    </div>
+                </div>
+
+                <div class="table-responsive rtl fade" ng-class="{show:loaded && products.length }">
+                    <table class="table table-bordered text-right table-hover table-sm" table-sortable="pg">
+                        <thead>
+                        <tr class="table-active">
+                            <th>#</th>
+                            <th>ویرایش</th>
+                            <th>تصویر</th>
+                            <th th-sortable="2">نام محصول</th>
+                            <th th-sortable="3">کد</th>
+                            <th class="ltr"> لینک</th>
+                            <th class="ltr" th-sortable="4">موجودی</th>
+                            <th class="ltr" th-sortable="5">خرید</th>
+                            <th class="ltr" th-sortable="6">عمده</th>
+                            <th class="ltr" th-sortable="7">قیمت</th>
+                            <th class="ltr" th-sortable="8">دسته بندی</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="product in products" title="{{product.id}}-{{product.rnd}}">
+                            <td class="" id="{{::product.id}}" index="{{::$index+((pg.number-1)*pg.size)}}"
+                                td-checkbox="chkService"></td>
+                            <td class="p-0 align-middle">
+                                <button type="button" class="btn btn-outline-dark btn-sm btn-block " ng-click="edit(product)">
+                                    <svg class="icon">
+                                        <use xlink:href="#svg-edit"></use>
+                                    </svg>
+                                </button>
+                            </td>
+                            <td class="p-0 text-center align-middle">
+                                <img ng-if="product.img" ng-src="{{product.img}}" width="35"/>
+                            </td>
+                            <td class="text-sm">{{product.name}}</td>
+                            <td>{{product.code}}</td>
+                            <td>
+                                <a href="{{product.link}}" target="_blank">
+                                    <small>{{product.url}}</small>
+                                </a>
+                            </td>
+                            <td>{{product.stock|number}}</td>
+                            <td>{{product.purchase_price|number}}</td>
+                            <td>{{product.wholesale_price|number}}</td>
+                            <td>{{product.price|number}}</td>
+                            <td>
+                                <small ng-repeat="c in product.categories">{{c.name+(!$last?',':'')}}</small>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <pagination></pagination>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,141 @@
+<div class="modal fade " ng-class="{loading:loading}" id="newNUmbersModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header">
+                <h5 class="modal-title">{{user.fname}} {{user.lname}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form class="form" name="userEditForm" id="userEditForm" ng-submit="save(user)">
+                <div class="modal-body rtl">
+                    <div class="row">
+
+                        <div class="col">
+                            <div class="form-group form-group-sm">
+                                <label>شماره ها</label>
+                                <textarea class="form-control ltr" ng-model="numbersStr" ng-change="checkNumbers()" ng-model-options="{ debounce: 800 }" rows="6" required></textarea>
+                                <small class="form-text text-muted">
+                                    دقت کنید فقط شماره موبایل باید وارد کنید. تعداد شماره وارد شده = <span class="badge badge-dark">{{user.numbers.length}}</span> عدد
+                                </small>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group form-group-sm">
+                                <label>اداره / شرکت / فروشگاه</label>
+                                <input type="text" class="form-control" ng-model="user.company"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 text-right">
+                            <label>جنسیت</label>
+                            <div class="form-group form-group-sm ">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadio1" name="genderRadio"
+                                           class="custom-control-input" ng-model="user.gender" value="FEMALE">
+                                    <label class="custom-control-label" for="customRadio1">خانم</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadio2" name="genderRadio"
+                                           class="custom-control-input" ng-model="user.gender" value="MALE">
+                                    <label class="custom-control-label" for="customRadio2">آقا</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>گروه</label>
+                                <select class="form-control" ng-model="user.user_group_id" ng-options="group.id as group.name
+for
+group in groups"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-sm">
+                                <label>اطلاعات</label>
+                                <textarea type="text" class="form-control" ng-model="user.info"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>مدرک تحصیلی</label>
+                                <select class="form-control" ng-model="user.education">
+                                    <option value="دیپلم">دیپلم</option>
+                                    <option value="کاردانی">کاردانی</option>
+                                    <option value="لیسانس">لیسانس</option>
+                                    <option value="فوق لیسانس ">فوق لیسانس</option>
+                                    <option value="دکتری">دکتری</option>
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group form-group-sm">
+                                <label>رشته تحصیلی</label>
+                                <input type="text" class="form-control" ng-model="user.edu_major"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <label>وضعیت تاهل</label>
+                            <div class="form-group form-group-sm ">
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadio11" name="maritalRadio"
+                                           class="custom-control-input" ng-model="user.marital_status"
+                                           value="SINGLE">
+                                    <label class="custom-control-label" for="customRadio11">مجرد</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadio21" name="maritalRadio"
+                                           class="custom-control-input" ng-model="user.marital_status"
+                                           value="MARRIED">
+                                    <label class="custom-control-label" for="customRadio21">متاهل</label>
+                                </div>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadio31" name="maritalRadio"
+                                           class="custom-control-input" ng-model="user.marital_status"
+                                           value="DIVORCED">
+                                    <label class="custom-control-label" for="customRadio31">مطلقه</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-5 text-right">
+                            <label>سابقه ارتباط با مرکز</label>
+                            <div class="form-group form-group-sm ">
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="relation1" class="custom-control-input" ng-model="relations['همایش']">
+                                    <label class="custom-control-label"
+                                           for="relation1">همایش
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="relation2" class="custom-control-input" ng-model="relations['کارگاه']">
+                                    <label class="custom-control-label"
+                                           for="relation2">کارگاه
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" id="relation3" class="custom-control-input" ng-model="relations['مشاوره']">
+                                    <label class="custom-control-label"
+                                           for="relation3">مشاوره
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="submit" form="userEditForm">
+                        ذخیره
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

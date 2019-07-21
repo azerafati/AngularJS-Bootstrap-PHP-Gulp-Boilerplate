@@ -1,0 +1,65 @@
+table[table-sortable] {
+
+  th[th-sortable] {
+    position: relative;
+    cursor: pointer;
+    padding-left: 25px !important;
+
+    svg {
+      width: 15px;
+      height: 15px;
+      float: left;
+      text-shadow: none !important;
+      line-height: inherit;
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      opacity: 0.3;
+      &.up {
+        margin-top: -11px;
+      }
+      &.down {
+        margin-top: -3px;
+      }
+    }
+    &:hover {
+      background-color: #e4e3e3 !important;
+    }
+
+    &.up {
+      svg.up {
+        opacity: 1;
+      }
+      svg.down {
+        opacity: 0.3;
+      }
+    }
+
+    &.down {
+      svg.down {
+        opacity: 1;
+      }
+      svg.up {
+        opacity: 0.3;
+      }
+    }
+
+  }
+  .table-active, .table-active > th {
+    background-color: rgba(0, 0, 0, .015);
+  }
+
+  &.table-hover .table-active:hover {
+    background-color: rgba(0, 0, 0, 0.035);
+  }
+
+
+  th[th-sortable].down, th[th-sortable].up {
+    background-color: #c3c3c3 !important
+  }
+
+  thead tr th{
+    vertical-align: middle;
+  }
+
+}

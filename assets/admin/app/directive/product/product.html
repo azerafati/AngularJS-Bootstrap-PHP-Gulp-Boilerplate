@@ -1,0 +1,23 @@
+<div class="stamp" ng-if="p.label"></div>
+<div class="thumbnail" id="product-{{p.rndurl}}">
+    <div class="product-pic">
+        <a class="fade" data-src="{{p.img}}" ng-href="{{p.link}}" alt="{{p.name}}"></a>
+        <div class="spinner"></div>
+    </div>
+    <div class="caption">
+        <a ng-href="{{p.link}}">
+            <p>
+                <s class="oldprice" ng-if="p.old_price && p.price>0">{{p.old_price|number}}</s>
+                <span class="price" ng-show="p.price>0">{{p.price|number}}</span>
+            </p>
+            <h5>
+                <span>{{p.name}}</span>
+                <strong>مشاهده
+                    <svg class="icon">
+                        <use xlink:href="#svg-cart"></use>
+                    </svg>
+                </strong>
+            </h5>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+.navbar.bg-dark {
+  background-color: rgba(9, 10, 11, 0.75) !important;
+  border-bottom: $card-border-width solid $card-border-color;
+
+  .navbar-nav .nav-link:not(.active) {
+    color: #d9d9d9;
+  }
+}

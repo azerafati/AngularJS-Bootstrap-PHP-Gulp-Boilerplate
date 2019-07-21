@@ -1,0 +1,22 @@
+.card {
+  background-color: transparent !important;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+
+  .card-header {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 0.25rem 0.8rem 0.25rem 0.25rem;
+    display : flex;
+    align-items : center;
+    flex-direction: row-reverse;
+    
+    span {
+      //line-height: 29px;
+      vertical-align: middle;
+    }
+  }
+  .card-body {
+    background-color: rgba($card-bg, 0.7);
+  }
+
+}

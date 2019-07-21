@@ -1,0 +1,75 @@
+<div class="card ">
+    <!-- BEGIN SEARCH BAR -->
+    <div class="card-header">
+        <button class="btn btn-sm btn-icon" data-toggle="dropdown">
+            <svg class="icon text-light">
+                <use xlink:href="#svg-more"></use>
+            </svg>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button class="dropdown-item" ng-click="">...</button>
+        </div>
+        <span>کاربران</span>
+        <button class="btn btn-sm btn-success mr-auto" ng-click="new()">کاربر جدید
+            <svg class="icon">
+                <use xlink:href="#svg-plus"></use>
+            </svg>
+        </button>
+    </div>
+    <div class="card-body">
+        <loading class="fade" ng-class="{show:loading || !loaded}"></loading>
+        <spinner></spinner>
+        <div class="fade" ng-class="{show:loaded}">
+            <div class="">
+
+            </div>
+            <div class="mt-3">
+                <div class="row">
+                    <pagination class="col"></pagination>
+                    <search-toolbar class="col-sm-4 col-lg-3 search-toolbar col"></search-toolbar>
+                    <chk-all name="کاربر" chk-service="chkService">
+                        <a class="dropdown-item" ng-click="sendSMS()">ارسال پیامک</a>
+                        <a class="dropdown-item" ng-click="delete()">حذف</a>
+                    </chk-all>
+                </div>
+            </div>
+
+            <div class="table-responsive rtl fade" ng-class="{show:loaded && users.length }">
+                <table class="table table-bordered text-right table-hover table-sm text-sm" table-sortable="pg">
+                    <thead>
+                    <tr class="table-active">
+                        <th></th>
+                        <th th-sortable="2">نام</th>
+                        <th>شهر</th>
+                        <th>گروه</th>
+                        <th th-sortable="5">اعتبار</th>
+                        <th th-sortable="1">عضویت</th>
+                        <th th-sortable="3">آخرین ورود</th>
+                        <th th-sortable="4">اخرین سفارش</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="user in users" title="{{user.id}}">
+                        <td class="" id="{{::user.id}}" index="{{::$index+((pg.number-1)*pg.size)}}" td-checkbox="chkService"></td>
+
+                        <td>
+                            <a href="user/{{user.id}}">{{user.fname }} {{ user.lname }} {{ user.known_as }} <span ng-if="user.company">({{user.company}})</span></a>
+                            <a href="user/{{user.id}}" class="float-left">{{user.mobile}}</a>
+                        </td>
+                        <td>{{user.province }} - {{ user.city }}</td>
+                        <td>{{user.group_name}}</td>
+                        <td class="ltr" ng-style="{'color' : user.balance<0?'red':'green'}">{{user.balance|number:0}}</td>
+                        <td title="{{user.created|jdateLg}}">{{user.created|jdateSm}}</td>
+                        <td title="{{user.last_login|jdateLg}}">{{user.last_login|jdateSm}}</td>
+                        <td title="{{user.last_order|jdateLg}}">{{user.last_order|jdateSm}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <pagination></pagination>
+    </div>
+</div>

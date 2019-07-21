@@ -1,0 +1,20 @@
+image: digitalgenius/ubuntu-node-chrome-selenium
+
+before_script:
+   - apt-get update
+   - npm install
+   - npm -v
+   - node -v
+   - pwd
+   - ls -l
+   - npm run distribute
+
+
+stage_deploy:
+    artifacts:
+      paths:
+        - dist/
+    only:
+      - master
+    script:
+      - npm run deploy -- --pass $FTP_PASS

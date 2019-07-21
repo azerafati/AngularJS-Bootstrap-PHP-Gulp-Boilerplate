@@ -1,0 +1,35 @@
+@import "bootstrap";
+@import "../../css/font";
+@import "sprite";
+@import "spinner";
+@import "loadingBar";
+@import "/node_modules/ztree/css/metroStyle/metroStyle.css";
+@import "/node_modules/cropperjs/dist/cropper.min.css";
+@import "../app/*";
+
+
+body {
+  min-height: 101vh;
+  background: #f3f4f4 url("/assets/admin/img/b.jpg");
+  & > .container {
+    min-height: 300px;
+  }
+}
+
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+.text-sm {
+  font-size: small;
+}
+
+
+table {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+  }
+}
+
+
+

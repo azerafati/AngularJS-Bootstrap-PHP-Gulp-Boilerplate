@@ -1,0 +1,28 @@
+
+td[td-checkbox] {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0 5px;
+  white-space: nowrap;
+  svg {
+    width: 20px;
+    height: 20px;
+    top: 4px;
+    position: relative;
+  }
+
+}
+
+.chk-all {
+  padding: 0.16rem 0.5rem !important;
+  svg {
+    width: 20px;
+    height: 20px;
+    top: 4px;
+    position: relative;
+  }
+}
+
+chk-all {
+  //text-align: right;
+}

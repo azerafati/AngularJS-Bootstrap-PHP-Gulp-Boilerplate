@@ -1,0 +1,29 @@
+#order-print {
+
+  font-size: 14px;
+  p {
+    font-size: 14px;
+  }
+  small {
+    color: #464646;
+  }
+  .final-price {
+    font-size: 15px;
+
+  }
+  thead {
+    tr.table-active {
+      th {
+        background-color: #e8e9e9 !important;
+      }
+    }
+  }
+
+}
+
+body.print-mode{
+  padding: 20px;
+  #order-print {
+    width: 500px;
+  }
+}

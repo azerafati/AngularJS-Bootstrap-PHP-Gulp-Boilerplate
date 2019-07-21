@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" ng-controller="navbarCtrl">
+    <a class="navbar-brand p-0" href="/" target="_blank">
+        <img src="/favicon.ico" width="40" height="40" alt="">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav nav nav-pills text-right ml-auto rtl">
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                    <img ng-src="{{user.profileImage}}" class="rounded-circle avatar" ng-if="user.profileImage">
+                    {{user.name}}
+                </a>
+                <div class="dropdown-menu  dropdown-menu-right text-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" ng-href="user/{{user.id}}">پروفایل من</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout" target="_self">خروج از حساب کاربری</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard" ng-class="{active:path=='/dashboard'}">داشبورد</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="products" ng-class="{active:path=='/products'}">محصولات</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users" ng-class="{active:path=='/users'}">کاربران</a>
+            </li>
+            <li class="nav-item dropdown ">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   ng-class="{active:path=='/orders'}">
+                    سفارش ها
+                </a>
+                <div class="dropdown-menu  dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="orders">همه سفارش ها</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="orders">تایید شده</a>
+                    <a class="dropdown-item" href="orders">ارسال شده</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</nav>

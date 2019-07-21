@@ -1,0 +1,36 @@
+<button class="btn btn-light btn-block" data-toggle="dropdown">
+
+    <span ng-if="!date">انتخاب تاریخ</span>
+    <span ng-if="date">{{date|jdateLg:'jYY/jMM/jDD'}}</span>
+
+</button>
+<div class="dropdown-menu rtl text-right">
+    <form class="px-1 py-0">
+        <div class="row no-gutters">
+            <div class="col-4">
+                <div class="form-group ">
+                    <input type="text" class="form-control form-control-sm"
+                           placeholder="روز" ng-model="oDay">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group ">
+                    <input type="text" class="form-control form-control-sm"
+                           placeholder="ماه" ng-model="oMonth">
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group ">
+                    <input type="text" class="form-control form-control-sm"
+                           placeholder="سال" ng-model="oYear">
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-primary btn-sm" type="button"
+                ng-click="setDate(oDay,oMonth,oYear)">
+            ذخیره
+        </button>
+    </form>
+
+</div>
+                        

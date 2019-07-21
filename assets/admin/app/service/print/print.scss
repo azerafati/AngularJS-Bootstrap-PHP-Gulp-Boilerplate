@@ -1,0 +1,19 @@
+//print specific styles
+@media print{
+  .modal,.modal-backdrop{
+    display: none !important;
+  }
+  body{
+    //makes 100% width working on chrome should test with firefox too and don't know why!!!!!!!
+    display: initial;
+    background: #fff !important;
+  }
+}
+body.print-mode{
+  display: initial;
+  background: #fff !important;
+  .d-print-none,.modal,.modal-backdrop{
+    display: none !important;
+  }
+}
+
