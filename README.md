@@ -1,5 +1,6 @@
 # Conifer 
-##A starting point for a web-app 
+## A starting point for a web-app 
+Built on:
 - AngularJS
 - Bootstrap
 - PHP
